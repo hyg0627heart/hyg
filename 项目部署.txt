@@ -1,0 +1,135 @@
+﻿https://mobile.ant.design/index-cn
+
+https://npm.taobao.org/package/customize-cra
+
+webpack
+create-react-app
+react-app-rewired
+customize-cra
+
+charles
+
+dpr: device pixel ratio
+
+http://es6.ruanyifeng.com/
+
+2019-11-12
+一、前后端不分离的部署模式
+将前端页面发布到后端
+域名应该解析到后端服务器
+
+nginx
+mac: /usr/local/etc/nginx
+cmd+shift+g
+
+Mac:
+nginx
+nginx -s stop
+
+windows:
+start nginx
+nginx -s stop
+
+域名->nginx(80)
+- root: index.html
+- /api: express
+
+二、前后端分离的部署模式
+lsof -i:3000
+kill -9 31981
+
+netstat
+
+
+三、服务器端部署
+1、linux
+ssh root@ip
+cat index.html
+vim index.html(i:插入模式，ESC：退出插入模式，:q! 不存盘退出，:wq 存盘退出)
+
+//保存 bash_profile的配置
+source .bash_profile
+
+yum install nodejs
+yum install nginx
+
+
+nginx: 前端
+nginx: 后端
+这两个配置都在/etc/nginx/conf.d下，分别为 cookbook.conf, cookbook-fe.conf
+
+cookbook-fe.conf:
+/usr/local/etc/htdocs/front-end,存的是前端资源文件，是通过react项目build出来的，里面的文件主要是css和js
+
+cookbook.conf:
+/usr/local/etc/htdocs, 存的是前端首页index.html, 这个文件nginx负责给前端
+location ~* /api {
+  # rewrite /api/(.*) /$1 break;
+  proxy_pass http://localhost:3000;
+}
+这个配置，当index.html引用的js做ajax调用，调用的接口通过此反向代理到express服务器
+
+express后端用的反向代理，因此需要启动json-server 来mock数据：
+进入到/usr/local/etc/admin目录，执行:
+yarn mock:be
+
+
+官方网站: http://pm2.keymetrics.io/
+参考文档：https://www.jianshu.com/p/6dbe6fa04520
+关键配置： http://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/注意: 可以在args参数里配置脚本参数
+{
+    "apps": [
+        {
+            "name": "mock",
+            "script": "json-server",
+            "args": "./mock/mock.js -r ./mock/route.json -p 9000 -w" 
+        }
+    ]
+}
+
+2019-11-15
+https://reactcommunity.org/react-transition-group/
+
+2019-11-18
+1、数据类型
+Map
+List
+Seq
+Set
+
+2、判断对象相等
+===
+equals()
+is()
+
+3、Map方法
+map1 = map
+map.set()
+map.setIn()
+map.get()
+map.getIn()
+map.updateIn()
+map.withMutation()
+map.merge()
+map.map()
+map.toJS()
+
+4、List方法
+map.concat()
+map.push()
+map.merge()
+
+5、Seq
+Seq是惰性的
+seq.filter()
+seq.map()
+seq.flip()
+seq.take()
+seq.reduce
+
+6、fromJS(), is(), Range()
+
+笔记：
+http://note.youdao.com/noteshare?id=86fb17ce7458df2701e3474ecf10366b
+
+http://note.youdao.com/noteshare?id=22a95e6ecf53720bb40252b0e1f431fd
